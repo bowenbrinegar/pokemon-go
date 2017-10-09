@@ -122,7 +122,8 @@ function addPokeToDB(response) {
 
 var removeMarker = function(marker, markerId) {
     marker.setMap(null);
-    delete markers[markerId];
+    // delete markers[markerId];
+    // delete this
 };
 
 //firebase
