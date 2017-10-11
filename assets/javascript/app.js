@@ -17,8 +17,36 @@ var database = firebase.database();
 var map;
 var service;
 var infowindow;
-var gplaces = ['restaurants', 'book_store', 'fire_station', 'gas_station', 'grocery_or_supermarket', 'gym', 'university', 'train_station', 'shopping_mall', 'post_office', 'museum', 'movie_theater', 'library', 'laundry'];
+var gplaces = ['restaurants', 'book_store', 'fire_station', 'gas_station', 
+'grocery_or_supermarket', 'gym', 'university', 'train_station', 'shopping_mall', 
+'post_office', 'museum', 'movie_theater', 'library', 'laundry'];
 var markers = {};
+var infoModal = document.getElementById('infoModal');
+var infoButton = document.getElementById('infoButton');
+var infoClose = document.getElementById('close');
+
+// do we want the info modal to display on load? do we need it to?
+// $(window).load(function(){
+//   modal.style.display = 'block';
+// });
+// also we can move this piece of code to any other location - i'm just dropping 
+// it here for now
+
+$(infoButton).on('click', function(){
+  infoModal.style.display = 'block';
+});
+
+$(infoClose).on('click', function(){
+  infoModal.style.display = 'none';
+});
+
+window.onclick = function(event){
+  if (event.target == infoModal){
+    infoModal.style.display = 'none';
+  }
+};
+
+//initializing map
 
 function initMap() {
   var location = {lat: 40.713425, lng: -74.005524};
@@ -63,7 +91,8 @@ function createPokeMarkers(results, status) {
 }
 
 function createMarker(place) {
-  var image = new google.maps.MarkerImage("assets/images/pokeball.png", null, null, null, new google.maps.Size(40,40));
+  var image = new google.maps.MarkerImage("assets/images/pokeball.png", null, 
+    null, null, new google.maps.Size(40,40));
   var markerId = place.geometry.location;
   if (!markers['marker_' + markerId]) {
     var marker = new google.maps.Marker({
@@ -86,7 +115,8 @@ var getMarkerUniqueId = function(lat, lng) {
 var bindMarkerEvents = function(marker) {
     // google.maps.event.addListener(marker, 
     marker.addListener("click", function (point) {
-        var markerId = "marker_(" + getMarkerUniqueId(point.latLng.lat(), point.latLng.lng()) + ")";
+        var markerId = "marker_(" + getMarkerUniqueId(point.latLng.lat(), 
+          point.latLng.lng()) + ")";
         var marker = markers[markerId];
         removeMarker(marker, markerId); 
         fetchAjax().done(addPokeToDB);
@@ -129,14 +159,15 @@ var removeMarker = function(marker, markerId) {
 
 database.ref().on("child_added", function(childSnapshot){
    var image = $("<img class='poke'>").attr("src", childSnapshot.val().image);
-   var button = $("<button id='pokeselectorbutton' data-id='" + childSnapshot.key + "'>").append(image)
+   var button = $("<button id='pokeSelectorButton' data-id='" + 
+    childSnapshot.key + "'>").append(image)
    
-   $("#pokemoncollection").prepend(button)
+   $("#pokemonCollection").prepend(button)
 });
 
 //onclick
 
-$('#pokemoncollection').on("click", "button", function() {
+$('#pokemonCollection').on("click", "button", function() {
   $('#id01').css("display", "block");
   $('#user').empty();
 
@@ -156,11 +187,11 @@ $('#pokemoncollection').on("click", "button", function() {
 
 //on click open and close pouch
 
-$('#pouchbutton').on("click", function() {
+$('#pouchButton').on("click", function() {
   $('#pouch').css("display", "block");
 });
 
-$('#closepouch').on("click", function() {
+$('#closePouch').on("click", function() {
   $('#pouch').css("display", "none");
 });
 

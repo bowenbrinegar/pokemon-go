@@ -16,26 +16,37 @@
 </head>
 <body>
   
-  <div id='loGO'><img src='assets/images/GO.png'></div>
-  <div id='maincontainer'>
+  <div id='logo'><img src='assets/images/GO.png'></div>
+
+  <div id='mapButtons'>
+
+    <button id='pouchButton'><img id='pouchPng' src='assets/images/bag-icon.png'></button>
+
+    <button id="infoButton"><span class='glyphicon glyphicon-question-sign' style='color:white'></span></button>
+
+  </div>
+
+  <div id='infoModal' class='modal'>
+    <div id='modalContent'>
+    <span id='close'>&times;</span>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit an im id est laborum.</p>
+    </div>
+  </div>
+
+  <div id='mainContainer'>
 
     <div id="map"></div>
 
-    <div id='mapbuttons'>
-      <button id='pouchbutton'><img id='pouchpng' src='assets/images/pokeball.png'></button>
-    </div>
-
     <div id='pouch'>
-      <button id='closepouch'>&times;</button>
+      <button id='closePouch'>&times;</button>
       <div id="div1">
-        <div id="pokemoncollection">
-          <div id='collectionspacer'></div>
+        <div id="pokemonCollection">
+          <div id='collectionSpacer'></div>
         </div> 
       </div>
     </div>
 
   </div>
-  
 
   <div class='row'>
     <div class='container'>
