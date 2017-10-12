@@ -106,7 +106,7 @@ function createPokeMarkers(results, status) {
           console.log(opp)
           var img = 'assets/images/pokemon/' + opp.id + '.png'
           console.log(img)
-          marker = createMarker(results[i], img, 100)
+          marker = createMarker(results[i], getPokeImage(opp.num), 100)
           marker.poke = opp
         } else queueOpponents(5)
       } else { marker = createMarker(results[i]) }
@@ -266,6 +266,10 @@ function getPokeValues(response) {
   return res
 } //will decide what data gets saved
 
+function getPokeImage(num) {
+  return `assets/images/pokemon/${num}.png`
+}
+
 function addPokeToPouch(pokeObj) {
   var $poke = renderPoke(pokeObj)
   $pokemoncollection.prepend($poke).isotope('prepended', $poke).isotope()
@@ -302,7 +306,8 @@ function renderPoke(pokeObj, keys) {
         break
       }
       case 'image': {
-        $div.append($("<img class='poke'>").attr("src", pokeObj.image))
+        $div.append($("<img class='poke'>")
+          .attr("src", getPokeImage(pokeObj.num))
         break
       }
     }
