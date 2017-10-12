@@ -178,29 +178,6 @@ $('#pouchControls .sortby.hp').on('click', function () {
   $pokemoncollection.isotope({sortBy : 'hp', sortAscending: false})
 })
 
-
-var $pokemoncollection = $('#pokemoncollection').isotope({
-  itemselector: '.pokeselectorbutton',
-  layoutMode: 'fitRows',
-  getSortData: {
-    id: '.id',
-    name: '.name',
-    hp: '.hp',
-    type: '.type'
-  },
-  sortBy: ['id', 'hp']
-})
-$('#pouchControls .sortby.number').on('click', function () {
-  console.log('clicked me')
-  $pokemoncollection.isotope({sortBy : 'id'})
-})
-$('#pouchControls .sortby.type').on('click', function () {
-  $pokemoncollection.isotope({sortBy : 'type'})
-})
-$('#pouchControls .sortby.hp').on('click', function () {
-  $pokemoncollection.isotope({sortBy : 'hp', sortAscending: false})
-})
-
 function fetchAjax() {
   randomNumber = Math.floor(Math.random() * 100) + 1;
   return $.ajax({
@@ -278,14 +255,6 @@ var removeMarker = function(marker) {
     marker.setMap(null);
 };
 
-
-
-
-
-
-
-
-
 //firebase
 function loadPokemon() {
   $('#pokemonCollection').empty()
@@ -303,14 +272,7 @@ function loadPokemon() {
     });
 }
 
-var removeMarker = function(marker, markerId) {
-    marker.setMap(null);
-    delete markers[markerId];
-};
-
 //on click open and close pouch
-
-
 $('#pouchbutton').on("click", function() {
   loadPokemon();
   $('#pouch').css("display", "block");
