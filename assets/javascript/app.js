@@ -89,19 +89,36 @@ function initMap() {
         type: gplaces
       }, createPokeMarkers);
   });
-}    
+}
+
+function randomNum (max) {
+  return Math.floor(Math.random() * (max + 1))
+}
 
 
 function createPokeMarkers(results, status) {
+  var marker
   if (status === google.maps.places.PlacesServiceStatus.OK) {
     for (var i = 0; i < results.length; i++) {
-      createMarker(results[i]); 
+      if (randomNum(5) === 0) {
+        if (opponents.length >= 3) {
+          var opp = opponents.pop()
+          console.log(opp)
+          var img = 'assets/images/pokemon/' + opp.id + '.png'
+          console.log(img)
+          marker = createMarker(results[i], img, 100)
+          marker.poke = opp
+        } else queueOpponents(5)
+      } else { marker = createMarker(results[i]) }
     }
   }
 }
 
-function createMarker(place) {
-  var image = new google.maps.MarkerImage("assets/images/pokeball.png", null, null, null, new google.maps.Size(40,40));
+function createMarker(place, img, size) {
+  size = size || 40
+  img = img || "assets/images/pokeball.png"
+  console.log(img)
+  var image = new google.maps.MarkerImage(img, null, null, null, new google.maps.Size(size,size));
   var markerId = place.geometry.location;
   if (!markers['marker_' + markerId]) {
     var marker = new google.maps.Marker({
@@ -112,7 +129,8 @@ function createMarker(place) {
     });
    markers[marker.get('id')] = marker;
    bindMarkerEvents(marker);
-  }
+   return marker
+  } else { return markers['marker_'+ markerId] }
 }
 
 //http://jsfiddle.net/fatihacet/CKegk/
@@ -130,13 +148,20 @@ var bindMarkerEvents = function(marker) {
         // loadPokemon();
         // fetchAjax().done(addPokeToVariables);
         // $('#pouch').css("display", "block");
-        fetchAjax().done(function (resp) {
-          opponent = getPokeValues(resp)
-          // addPokeToPouch(opponent)
-          addPokeToDB(opponent)
-          battleMode();
-          loadPokemon();
-        });
+        console.log(marker.poke)
+        if (marker.poke) {
+          opponent = marker.poke
+          battleMode()
+          loadPokemon()
+        } // else add to pokeball count?
+
+        // fetchAjax().done(function (resp) {
+        //   opponent = getPokeValues(resp)
+        //   // addPokeToPouch(opponent)
+        //   addPokeToDB(opponent)
+        //   battleMode();
+        //   loadPokemon();
+        // });
     });    
 };
 
@@ -146,6 +171,7 @@ var bindMarkerEvents = function(marker) {
 
 var user;
 var opponent;
+var opponents = [];
 
 var referenceId;
 
@@ -208,6 +234,16 @@ function fetchAjax() {
       dataType: 'json',
       method: 'GET'
   });
+}
+
+function queueOpponents(amount) {
+  for (var i=0; i<=amount; i++) {
+    if (opponents.length <= 5) {
+      fetchAjax().done(function (r) {
+        opponents.push(getPokeValues(r))
+      })
+    }
+  }
 }
 
 function addPokeToVariables(response) {
