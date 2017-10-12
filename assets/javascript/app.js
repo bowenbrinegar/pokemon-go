@@ -224,7 +224,7 @@ function addPokeToDB(pokeObj) {
 }
 
 function renderPoke(pokeObj, keys) {
-  var $div = $("<button id='pokeselectorbutton' data-id='" + pokeObj.key + "' data-num='" + pokeObj.num + "'>")
+  var $div = $("<button class='pokeselectorbutton' data-id='" + pokeObj.key + "' data-num='" + pokeObj.num + "'>")
   if (!keys || !keys.length) { keys = Object.getOwnPropertyNames(pokeObj) }
   keys.forEach(k => {
     switch(k) {
