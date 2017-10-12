@@ -36,6 +36,7 @@ $('#sumbit').on("click", function() {
       firebase.auth().signInWithEmailAndPassword(email, password).then(function(success){
         alert("Your Logged In");
         userId = firebase.auth().currentUser;
+        loadPokemon();
       }).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -135,7 +136,6 @@ var bindMarkerEvents = function(marker) {
           // addPokeToPouch(opponent)
           addPokeToDB(opponent)
           battleMode();
-          loadPokemon();
         });
     });    
 };
@@ -156,7 +156,7 @@ var pikachu = new Audio("assets/audioClips/pikachu.wav");
 var battleTheme = new Audio("assets/audioClips/battleTheme.wav")
 var catched = new Audio("assets/audioClips/catch.wav")
 
-var $pokemoncollection = $('#pokemoncollection').isotope({
+var $pokemoncollection = $('#pokemonCollection').isotope({
   itemselector: '.pokeselectorbutton',
   layoutMode: 'fitRows',
   getSortData: {
@@ -224,7 +224,7 @@ function addPokeToDB(pokeObj) {
 }
 
 function renderPoke(pokeObj, keys) {
-  var $div = $("<button id='pokeselectorbutton' data-id='" + pokeObj.id + "' data-num='" + pokeObj.num + "'>")
+  var $div = $("<button id='pokeselectorbutton' data-id='" + pokeObj.key + "' data-num='" + pokeObj.num + "'>")
   if (!keys || !keys.length) { keys = Object.getOwnPropertyNames(pokeObj) }
   keys.forEach(k => {
     switch(k) {
@@ -254,6 +254,7 @@ function renderPoke(pokeObj, keys) {
       }
     }
   })
+  console.log($div)
   return $div
 } //will output poke image and data in html
 
@@ -269,14 +270,15 @@ function loadPokemon() {
 
     ref.on("child_added", function(childSnapshot){
       var poke = getPokeValuesFromDB(childSnapshot)
-      // addPokeToPouch(renderPoke(poke))
-      var image = $("<img class='poke'>").attr("src", poke.image);
-      var name = $("<h4 class='hoverName'>").append(poke.name);
-      var health = $("<h4 class='hoverHealth'>").append(poke.hp);
-      var button = $("<button class='button__description' data-id='" + poke.key + "'>").append(name, health);
-      var div = $("<div class='button__wrap'>").append(image, button);
+      console.log(poke)
+      addPokeToPouch(poke)
+      // var image = $("<img class='poke'>").attr("src", poke.image);
+      // var name = $("<h4 class='hoverName'>").append(poke.name);
+      // var health = $("<h4 class='hoverHealth'>").append(poke.hp);
+      // var button = $("<button class='button__description' data-id='" + poke.key + "'>").append(name, health);
+      // var div = $("<div class='button__wrap'>").append(image, button);
 
-      $("#pokemonCollection").prepend(div)
+      // $("#pokemonCollection").prepend(div)
     });
 }
 

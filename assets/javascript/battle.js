@@ -77,8 +77,9 @@ $('#pokemonCollection').on("click", "button", function selectUserPokemon() {
   var ref = database.ref().child("Users").child(userId.uid).child(referenceId);
   ref.on("value", function(snapshot) {
     user = snapshot.val()
+    var $user = renderPoke(user)
     console.log(user)
-    $('#user').append(renderPoke(user))
+    $('#user').append($user)
   })
 //     userHealth = snapshot.val().health
 
