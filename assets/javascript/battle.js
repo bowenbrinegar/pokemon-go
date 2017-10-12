@@ -1,4 +1,5 @@
 function battleMode() {
+
   $('#battleMode').css("display", "block");
       battleTheme.play();
 
@@ -28,7 +29,12 @@ function battleMode() {
         image: pokeImage
       });
     };
-  });   
+  });
+
+  $('#catch').empty();
+  var $opponent = renderPoke(opponent)
+  console.log($opponent)
+  $("#catch").append($opponent)
 // closes battle mode, potentially shows stats of pokemon collected
   // if (gameover) {
   // $('#battleMode').css("display", "none");
@@ -67,7 +73,7 @@ function battleMode() {
 // })
 
 
-$('#pokemonCollection').on("click", "button", function selectUserPokemon() {
+$('#pokemonCollection').on("click", ".pokemon", function selectUserPokemon() {
   $('#user').empty();
   $('#pouch').css("display", "none");
 
@@ -92,16 +98,11 @@ $('#pokemonCollection').on("click", "button", function selectUserPokemon() {
 // >>>>>>> basics down, lots of bugs, but enough to work off of
 
 //loads the pokemon from the random Ajax call into the catch side of battlemode
-  $('#catch').empty();
-  var image = renderPoke(opponent)
-  console.log(image)
-  $("#catch").append(image)
+
 // ===
 //   var nameEntry = $('<h3>').text(pokeName)
 //   var healthEntry = $('<h2>').text(catchHealth)
 //   var imageEntry = $("<img class='pokeBattle'>").attr("src", pokeImage)
 //   $("#catch").append(image)
 // >>>>>>> basics down, lots of bugs, but enough to work off of
-
-  battleMode();
 })

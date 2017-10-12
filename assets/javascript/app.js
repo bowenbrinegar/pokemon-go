@@ -134,7 +134,7 @@ var bindMarkerEvents = function(marker) {
         fetchAjax().done(function (resp) {
           opponent = getPokeValues(resp)
           // addPokeToPouch(opponent)
-          addPokeToDB(opponent)
+          // addPokeToDB(opponent)
           battleMode();
         });
     });    
@@ -157,7 +157,7 @@ var battleTheme = new Audio("assets/audioClips/battleTheme.wav")
 var catched = new Audio("assets/audioClips/catch.wav")
 
 var $pokemoncollection = $('#pokemonCollection').isotope({
-  itemselector: '.pokeselectorbutton',
+  itemselector: '.pokemon',
   layoutMode: 'fitRows',
   getSortData: {
     id: '.id',
@@ -215,7 +215,10 @@ function getPokeValuesFromDB(snapshot) {
 
 function addPokeToPouch(pokeObj) {
   var $poke = renderPoke(pokeObj)
-  $pokemoncollection.prepend($poke).isotope('prepended', $poke).isotope()
+  console.log($poke.children())
+  $pokemoncollection
+    .prepend($poke)
+    .isotope('prepended', $poke)
 }
 
 function addPokeToDB(pokeObj) {
@@ -224,7 +227,7 @@ function addPokeToDB(pokeObj) {
 }
 
 function renderPoke(pokeObj, keys) {
-  var $div = $("<button class='pokeselectorbutton' data-id='" + pokeObj.key + "' data-num='" + pokeObj.num + "'>")
+  var $div = $("<div class='pokemon' data-id='" + pokeObj.key + "' data-num='" + pokeObj.num + "'>")
   if (!keys || !keys.length) { keys = Object.getOwnPropertyNames(pokeObj) }
   keys.forEach(k => {
     switch(k) {
@@ -249,12 +252,13 @@ function renderPoke(pokeObj, keys) {
         break
       }
       case 'image': {
-        $div.append($("<img class='poke'>").attr("src", pokeObj.image))
+        $div.append(
+          $("<img class='poke'>")
+          .attr("src", pokeObj.image))
         break
       }
     }
   })
-  console.log($div)
   return $div
 } //will output poke image and data in html
 
@@ -270,7 +274,6 @@ function loadPokemon() {
 
     ref.on("child_added", function(childSnapshot){
       var poke = getPokeValuesFromDB(childSnapshot)
-      console.log(poke)
       addPokeToPouch(poke)
       // var image = $("<img class='poke'>").attr("src", poke.image);
       // var name = $("<h4 class='hoverName'>").append(poke.name);
@@ -284,8 +287,9 @@ function loadPokemon() {
 
 //on click open and close pouch
 $('#pouchbutton').on("click", function() {
-  loadPokemon();
+  // loadPokemon();
   $('#pouch').css("display", "block");
+  $pokemoncollection.isotope()
 });
 
 $('#closePouch').on("click", function() {
