@@ -36,6 +36,7 @@ $('#sumbit').on("click", function() {
       firebase.auth().signInWithEmailAndPassword(email, password).then(function(success){
         alert("Your Logged In");
         userId = firebase.auth().currentUser;
+        loadPokemon();
       }).catch(function(error) {
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -133,9 +134,8 @@ var bindMarkerEvents = function(marker) {
         fetchAjax().done(function (resp) {
           opponent = getPokeValues(resp)
           // addPokeToPouch(opponent)
-          addPokeToDB(opponent)
+          // addPokeToDB(opponent)
           battleMode();
-          loadPokemon();
         });
     });    
 };
@@ -156,50 +156,32 @@ var pikachu = new Audio("assets/audioClips/pikachu.wav");
 var battleTheme = new Audio("assets/audioClips/battleTheme.wav")
 var catched = new Audio("assets/audioClips/catch.wav")
 
-var $pokemoncollection = $('#pokemoncollection').isotope({
-  itemselector: '.pokeselectorbutton',
+var $pokemoncollection = $('#pokemonCollection').isotope({
+  itemselector: '.pokemon',
   layoutMode: 'fitRows',
   getSortData: {
-    id: '.id',
-    name: '.name',
-    hp: '.hp',
-    type: '.type'
+    id: '[data-num]',
+    name: '[data-name]',
+    hp: '[data-hp]',
+    type: '[data-type]'
   },
   sortBy: ['id', 'hp']
 })
 $('#pouchControls .sortby.number').on('click', function () {
   console.log('clicked me')
-  $pokemoncollection.isotope({sortBy : 'id'})
+  $pokemoncollection.isotope({sortBy : 'id', sortAscending: true})
 })
 $('#pouchControls .sortby.type').on('click', function () {
-  $pokemoncollection.isotope({sortBy : 'type'})
+  $pokemoncollection.isotope({sortBy : 'type', sortAscending: true})
 })
 $('#pouchControls .sortby.hp').on('click', function () {
   $pokemoncollection.isotope({sortBy : 'hp', sortAscending: false})
 })
 
-
-var $pokemoncollection = $('#pokemoncollection').isotope({
-  itemselector: '.pokeselectorbutton',
-  layoutMode: 'fitRows',
-  getSortData: {
-    id: '.id',
-    name: '.name',
-    hp: '.hp',
-    type: '.type'
-  },
-  sortBy: ['id', 'hp']
-})
-$('#pouchControls .sortby.number').on('click', function () {
-  console.log('clicked me')
-  $pokemoncollection.isotope({sortBy : 'id'})
-})
-$('#pouchControls .sortby.type').on('click', function () {
-  $pokemoncollection.isotope({sortBy : 'type'})
-})
-$('#pouchControls .sortby.hp').on('click', function () {
-  $pokemoncollection.isotope({sortBy : 'hp', sortAscending: false})
-})
+function showPouch() {
+  $('#pouch').css("display", "block");
+  $pokemoncollection.isotope()
+}
 
 function fetchAjax() {
   randomNumber = Math.floor(Math.random() * 100) + 1;
@@ -220,19 +202,38 @@ function addPokeToVariables(response) {
 
 function getPokeValues(response) {
   var res = {
-    id: response.id,
-    image: response.sprites.front_default,
-    name: response.name,
     attack: response.stats[4].base_stat,
     hp: response.stats[5].base_stat,
+    num: response.id,
+    image: response.sprites.front_default,
+    name: response.name,
     type: response.types[0].type.name
   }
   return res
 } //will decide what data gets saved
 
+function getPokeValuesFromDB(snapshot) {
+  var poke = snapshot.val()
+  poke.key = snapshot.key
+  return poke
+}
+
 function addPokeToPouch(pokeObj) {
-  var $poke = renderPoke(pokeObj)
-  $pokemoncollection.prepend($poke).isotope('prepended', $poke).isotope()
+  var $poke = renderPoke(pokeObj, ['name', 'image', 'type', 'attack', 'hp'])
+  var $overlayedElems = $poke.children('.hp, .attack')
+  var $centerContainer = $('<div class="centered-text">')
+    .append($overlayedElems)
+  var $hoverOverlay = $("<div class='button__description'>")
+    .append($centerContainer)
+    .insertBefore($poke.children()[0])
+  // var image = $("<img class='poke'>").attr("src", poke.image);
+  // var name = $("<h4 class='hoverName'>").append(poke.name);
+  // var health = $("<h4 class='hoverHealth'>").append(poke.hp);
+  // var button = $("<button class='button__description' data-id='" + poke.key + "'>").append(name, health);
+  // var div = $("<div class='button__wrap'>").append(image, button);
+  $pokemoncollection
+    .prepend($poke)
+    .isotope('prepended', $poke)
 }
 
 function addPokeToDB(pokeObj) {
@@ -241,16 +242,22 @@ function addPokeToDB(pokeObj) {
 }
 
 function renderPoke(pokeObj, keys) {
-  var $div = $("<button id='pokeselectorbutton' data-id='" + pokeObj.id + "'>")
+  var $div = $("<div class='pokemon'>")
+    .attr('data-id', pokeObj.key)
+    .attr('data-num', pokeObj.num)
+    .attr('data-name', pokeObj.name)
+    .attr('data-attack', pokeObj.attack)
+    .attr('data-hp', pokeObj.hp)
+    .attr('data-type', pokeObj.type)
   if (!keys || !keys.length) { keys = Object.getOwnPropertyNames(pokeObj) }
   keys.forEach(k => {
     switch(k) {
-      case 'id': {
-        $div.append($('<div class="id">').text('id: ' + pokeObj.id))
+      case 'num': {
+        $div.append($('<div class="id">').text('id: ' + pokeObj.num))
         break
       }
       case 'name': {
-        $div.append($('<div class="name">').text('name: ' + pokeObj.name))
+        $div.append($('<div class="name">').text(pokeObj.name))
         break
       }
       case 'type': {
@@ -266,7 +273,9 @@ function renderPoke(pokeObj, keys) {
         break
       }
       case 'image': {
-        $div.append($("<img class='poke'>").attr("src", pokeObj.image))
+        $div.append(
+          $("<img class='poke'>")
+          .attr("src", pokeObj.image))
         break
       }
     }
@@ -278,14 +287,6 @@ var removeMarker = function(marker) {
     marker.setMap(null);
 };
 
-
-
-
-
-
-
-
-
 //firebase
 function loadPokemon() {
   $('#pokemonCollection').empty()
@@ -293,27 +294,15 @@ function loadPokemon() {
     var ref = database.ref().child("Users").child(userId.uid)
 
     ref.on("child_added", function(childSnapshot){
-      var image = $("<img class='poke'>").attr("src", childSnapshot.val().image);
-      var name = $("<h4 class='hoverName'>").append(childSnapshot.val().name);
-      var health = $("<h4 class='hoverHealth'>").append(childSnapshot.val().health);
-      var button = $("<button class='button__description' data-id='" + childSnapshot.key + "'>").append(name, health);
-      var div = $("<div class='button__wrap'>").append(image, button);
-
-      $("#pokemonCollection").prepend(div)
+      var poke = getPokeValuesFromDB(childSnapshot)
+      addPokeToPouch(poke)
     });
 }
 
-var removeMarker = function(marker, markerId) {
-    marker.setMap(null);
-    delete markers[markerId];
-};
-
 //on click open and close pouch
-
-
 $('#pouchbutton').on("click", function() {
-  loadPokemon();
-  $('#pouch').css("display", "block");
+  // loadPokemon();
+  showPouch()
 });
 
 $('#closePouch').on("click", function() {
@@ -324,6 +313,3 @@ $('#closeBattle').on("click", function() {
   $('#battleMode').css("display", "none");
 });
 
-$('#closeBattle').on("click", function() {
-  $('#battleMode').css("display", "none");
-});

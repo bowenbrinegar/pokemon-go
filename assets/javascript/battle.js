@@ -1,4 +1,5 @@
 function battleMode() {
+
   $('#battleMode').css("display", "block");
       battleTheme.play();
 
@@ -28,7 +29,19 @@ function battleMode() {
         image: pokeImage
       });
     };
-  });   
+  });
+
+  $('#catch').empty();
+  var $opponent = renderPoke(opponent, ['attack', 'hp', 'image','name','type'])
+  $("#catch").append($opponent)
+
+  if (!user) {
+    showPouch()
+  } else {
+    $('#user').empty()
+    var $user = renderPoke(user, ['attack', 'hp', 'image','name','type'])
+    $('#user').append($user)
+  }
 // closes battle mode, potentially shows stats of pokemon collected
   // if (gameover) {
   // $('#battleMode').css("display", "none");
@@ -67,17 +80,17 @@ function battleMode() {
 // })
 
 
-$('#pokemonCollection').on("click", "button", function selectUserPokemon() {
+$('#pokemonCollection').on("click", ".pokemon", function selectUserPokemon() {
   $('#user').empty();
   $('#pouch').css("display", "none");
 
-  console.log(this)
 //loads the pokemon from the pokemonCollection into the user side of battlemode
   referenceId = $(this).attr("data-id");
-  var ref = firebase.database().ref(referenceId);
+  var ref = database.ref().child("Users").child(userId.uid).child(referenceId);
   ref.on("value", function(snapshot) {
     user = snapshot.val()
-    $('#user').append(renderPoke(user))
+    var $user = renderPoke(user, ['attack', 'hp', 'image','name','type'])
+    $('#user').append($user)
   })
 //     userHealth = snapshot.val().health
 
@@ -90,16 +103,11 @@ $('#pokemonCollection').on("click", "button", function selectUserPokemon() {
 // >>>>>>> basics down, lots of bugs, but enough to work off of
 
 //loads the pokemon from the random Ajax call into the catch side of battlemode
-  $('#catch').empty();
-  var image = renderPoke(opponent, ['image'])
-  console.log(image)
-  $("#catch").append(image)
+
 // ===
 //   var nameEntry = $('<h3>').text(pokeName)
 //   var healthEntry = $('<h2>').text(catchHealth)
 //   var imageEntry = $("<img class='pokeBattle'>").attr("src", pokeImage)
 //   $("#catch").append(image)
 // >>>>>>> basics down, lots of bugs, but enough to work off of
-
-  battleMode();
 })
