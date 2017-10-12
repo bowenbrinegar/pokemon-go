@@ -197,7 +197,7 @@ function addPokeToVariables(response) {
 
 function getPokeValues(response) {
   var res = {
-    id: response.id,
+    num: response.id,
     image: response.sprites.front_default,
     name: response.name,
     attack: response.stats[4].base_stat,
@@ -206,6 +206,12 @@ function getPokeValues(response) {
   }
   return res
 } //will decide what data gets saved
+
+function getPokeValuesFromDB(snapshot) {
+  var poke = snapshot.val()
+  poke.key = snapshot.key
+  return poke
+}
 
 function addPokeToPouch(pokeObj) {
   var $poke = renderPoke(pokeObj)
@@ -218,7 +224,7 @@ function addPokeToDB(pokeObj) {
 }
 
 function renderPoke(pokeObj, keys) {
-  var $div = $("<button id='pokeselectorbutton' data-id='" + pokeObj.id + "'>")
+  var $div = $("<button id='pokeselectorbutton' data-id='" + pokeObj.id + "' data-num='" + pokeObj.num + "'>")
   if (!keys || !keys.length) { keys = Object.getOwnPropertyNames(pokeObj) }
   keys.forEach(k => {
     switch(k) {
@@ -262,10 +268,12 @@ function loadPokemon() {
     var ref = database.ref().child("Users").child(userId.uid)
 
     ref.on("child_added", function(childSnapshot){
-      var image = $("<img class='poke'>").attr("src", childSnapshot.val().image);
-      var name = $("<h4 class='hoverName'>").append(childSnapshot.val().name);
-      var health = $("<h4 class='hoverHealth'>").append(childSnapshot.val().health);
-      var button = $("<button class='button__description' data-id='" + childSnapshot.key + "'>").append(name, health);
+      var poke = getPokeValuesFromDB(childSnapshot)
+      // addPokeToPouch(renderPoke(poke))
+      var image = $("<img class='poke'>").attr("src", poke.image);
+      var name = $("<h4 class='hoverName'>").append(poke.name);
+      var health = $("<h4 class='hoverHealth'>").append(poke.hp);
+      var button = $("<button class='button__description' data-id='" + poke.key + "'>").append(name, health);
       var div = $("<div class='button__wrap'>").append(image, button);
 
       $("#pokemonCollection").prepend(div)

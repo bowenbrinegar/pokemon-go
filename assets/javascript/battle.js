@@ -74,9 +74,10 @@ $('#pokemonCollection').on("click", "button", function selectUserPokemon() {
   console.log(this)
 //loads the pokemon from the pokemonCollection into the user side of battlemode
   referenceId = $(this).attr("data-id");
-  var ref = firebase.database().ref(referenceId);
+  var ref = database.ref().child("Users").child(userId.uid).child(referenceId);
   ref.on("value", function(snapshot) {
     user = snapshot.val()
+    console.log(user)
     $('#user').append(renderPoke(user))
   })
 //     userHealth = snapshot.val().health
@@ -91,7 +92,7 @@ $('#pokemonCollection').on("click", "button", function selectUserPokemon() {
 
 //loads the pokemon from the random Ajax call into the catch side of battlemode
   $('#catch').empty();
-  var image = renderPoke(opponent, ['image'])
+  var image = renderPoke(opponent)
   console.log(image)
   $("#catch").append(image)
 // ===
