@@ -160,19 +160,19 @@ var $pokemoncollection = $('#pokemonCollection').isotope({
   itemselector: '.pokemon',
   layoutMode: 'fitRows',
   getSortData: {
-    id: '.id',
-    name: '.name',
-    hp: '.hp',
-    type: '.type'
+    id: '[data-num]',
+    name: '[data-name]',
+    hp: '[data-hp]',
+    type: '[data-type]'
   },
   sortBy: ['id', 'hp']
 })
 $('#pouchControls .sortby.number').on('click', function () {
   console.log('clicked me')
-  $pokemoncollection.isotope({sortBy : 'id'})
+  $pokemoncollection.isotope({sortBy : 'id', sortAscending: true})
 })
 $('#pouchControls .sortby.type').on('click', function () {
-  $pokemoncollection.isotope({sortBy : 'type'})
+  $pokemoncollection.isotope({sortBy : 'type', sortAscending: true})
 })
 $('#pouchControls .sortby.hp').on('click', function () {
   $pokemoncollection.isotope({sortBy : 'hp', sortAscending: false})
@@ -219,11 +219,12 @@ function getPokeValuesFromDB(snapshot) {
 }
 
 function addPokeToPouch(pokeObj) {
-  var $poke = renderPoke(pokeObj)
-  var $name = $poke.children('.name')
-  var $hp = $poke.children('.hp')
+  var $poke = renderPoke(pokeObj, ['name', 'image', 'type', 'attack', 'hp'])
+  var $overlayedElems = $poke.children('.hp, .attack')
+  var $centerContainer = $('<div class="centered-text">')
+    .append($overlayedElems)
   var $hoverOverlay = $("<div class='button__description'>")
-    .append($name, $hp)
+    .append($centerContainer)
     .insertBefore($poke.children()[0])
   // var image = $("<img class='poke'>").attr("src", poke.image);
   // var name = $("<h4 class='hoverName'>").append(poke.name);
@@ -241,7 +242,13 @@ function addPokeToDB(pokeObj) {
 }
 
 function renderPoke(pokeObj, keys) {
-  var $div = $("<div class='pokemon' data-id='" + pokeObj.key + "' data-num='" + pokeObj.num + "'>")
+  var $div = $("<div class='pokemon'>")
+    .attr('data-id', pokeObj.key)
+    .attr('data-num', pokeObj.num)
+    .attr('data-name', pokeObj.name)
+    .attr('data-attack', pokeObj.attack)
+    .attr('data-hp', pokeObj.hp)
+    .attr('data-type', pokeObj.type)
   if (!keys || !keys.length) { keys = Object.getOwnPropertyNames(pokeObj) }
   keys.forEach(k => {
     switch(k) {

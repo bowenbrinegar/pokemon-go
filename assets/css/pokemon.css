@@ -7,6 +7,7 @@
   min-height: 100px;
 }
 
+
 #pokemonCollection .pokemon .button__description {
   position: absolute;
   width: 100%;
@@ -16,7 +17,6 @@
   left: 0;
   color: #fff;
   visibility: hidden;
-  text-align: center;
   font-size: 18px;
   line-height: 1.5em;
 }

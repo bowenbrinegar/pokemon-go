@@ -10,6 +10,13 @@ html, body {
         endColorstr='#19224f',GradientType=0 ); /* IE6-9 */
   }
 
+.centered-text {
+    position: relative;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%); 
+}
+
 /*centers map and main container*/
 
 #maincontainer {

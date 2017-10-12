@@ -32,14 +32,14 @@ function battleMode() {
   });
 
   $('#catch').empty();
-  var $opponent = renderPoke(opponent, ['attack', 'hp', 'num', 'image','name','type'])
+  var $opponent = renderPoke(opponent, ['attack', 'hp', 'image','name','type'])
   $("#catch").append($opponent)
 
   if (!user) {
     showPouch()
   } else {
     $('#user').empty()
-    var $user = renderPoke(user, ['attack', 'hp', 'num', 'image','name','type'])
+    var $user = renderPoke(user, ['attack', 'hp', 'image','name','type'])
     $('#user').append($user)
   }
 // closes battle mode, potentially shows stats of pokemon collected
@@ -89,7 +89,7 @@ $('#pokemonCollection').on("click", ".pokemon", function selectUserPokemon() {
   var ref = database.ref().child("Users").child(userId.uid).child(referenceId);
   ref.on("value", function(snapshot) {
     user = snapshot.val()
-    var $user = renderPoke(user)
+    var $user = renderPoke(user, ['attack', 'hp', 'image','name','type'])
     $('#user').append($user)
   })
 //     userHealth = snapshot.val().health
