@@ -169,52 +169,10 @@ button {
 
 /*pokemon selectors*/
 
-.pokemon {
-    background: white;
-    margin: 10px;
-    border-radius: 8px;
-    min-height: 120px;
-    width: 150px;
-}
-
 .poke {
     height: 100px;
     width: 100px;
 }
-
-.button__wrap {
-  position: relative;
-  background: white;
-  float: left;
-  border: none;
-  border-radius: 8px;
-  margin: 10px;
-  width: 100px;
-  height: 100px;
-}
-
-.button__description {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  color: #fff;
-  visibility: hidden;
-}
-
-.button__wrap:hover .button__description {
-  visibility: visible;
-  opacity: 1;
-  background: rgba(173,0,0,.5);
-    transition: box-shadow 0.3s ease-in-out;
-    transition: 1s;
-}
-
-
 
 /*battle mode*/
 

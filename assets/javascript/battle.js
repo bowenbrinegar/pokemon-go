@@ -32,9 +32,16 @@ function battleMode() {
   });
 
   $('#catch').empty();
-  var $opponent = renderPoke(opponent)
-  console.log($opponent)
+  var $opponent = renderPoke(opponent, ['attack', 'hp', 'num', 'image','name','type'])
   $("#catch").append($opponent)
+
+  if (!user) {
+    showPouch()
+  } else {
+    $('#user').empty()
+    var $user = renderPoke(user, ['attack', 'hp', 'num', 'image','name','type'])
+    $('#user').append($user)
+  }
 // closes battle mode, potentially shows stats of pokemon collected
   // if (gameover) {
   // $('#battleMode').css("display", "none");
@@ -77,14 +84,12 @@ $('#pokemonCollection').on("click", ".pokemon", function selectUserPokemon() {
   $('#user').empty();
   $('#pouch').css("display", "none");
 
-  console.log(this)
 //loads the pokemon from the pokemonCollection into the user side of battlemode
   referenceId = $(this).attr("data-id");
   var ref = database.ref().child("Users").child(userId.uid).child(referenceId);
   ref.on("value", function(snapshot) {
     user = snapshot.val()
     var $user = renderPoke(user)
-    console.log(user)
     $('#user').append($user)
   })
 //     userHealth = snapshot.val().health
