@@ -30,7 +30,7 @@ body{
 #logo{
     position:relative;
     float:left;
-    width:10%;
+    width:150px;
     margin:5.5% 0 5% 12%;
 }
 
@@ -204,3 +204,29 @@ button{
     color: white;
 }
 
+
+
+
+/*media queries for web responsivity*/
+
+/*tablets/half-screen browser view*/
+@media only screen and (max-width: 900px) {
+    #bentoBox{
+        width:80%;
+        margin:2% 10%;
+    }
+
+    #logo{
+        width:20%;
+        margin-left:0;
+    }
+
+    #mainContainer{
+        width:80%;
+    }
+}
+
+/*mobile view*/
+@media only screen and (max-width: 375px) {
+
+}
