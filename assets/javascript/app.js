@@ -15,6 +15,7 @@ var database = firebase.database();
 var userId;
 
 
+
 // user input
 $('#sumbit').on("click", function() {
    var select = $('#sel1').val();
@@ -147,10 +148,7 @@ var bindMarkerEvents = function(marker) {
 var user;
 var opponent;
 
-var referenceId;
-
-var userHealth;
-var catchHealth;
+var selectedPokeId;
 
 var pikachu = new Audio("assets/audioClips/pikachu.wav");
 var battleTheme = new Audio("assets/audioClips/battleTheme.wav")
@@ -208,6 +206,11 @@ function addPokeToVariables(response) {
   pokeImage = poke.image;
 }
 
+function initPokeValues (poke) {
+  poke.healthPoints = poke.hp;
+  poke.attackPoints = Math.floor(poke.attack / 5);
+}
+
 function getPokeValues(response) {
   var res = {
     attack: response.stats[4].base_stat,
@@ -217,12 +220,14 @@ function getPokeValues(response) {
     name: response.name,
     type: response.types[0].type.name
   }
+  initPokeValues(res)
   return res
 } //will decide what data gets saved
 
 function getPokeValuesFromDB(snapshot) {
   var poke = snapshot.val()
   poke.key = snapshot.key
+  initPokeValues(poke)
   return poke
 }
 
@@ -242,6 +247,13 @@ function addPokeToPouch(pokeObj) {
   $pokemonCollection
     .prepend($poke)
   return $poke
+}
+
+function removePokeFromPouch(pokeKey) {
+  var res = $pokemonCollection.children().filter(function (i, e) {
+    return $(e).attr('data-id') === pokeKey
+  })
+  $pokemonCollection.isotope('remove', res[0])
 }
 
 function addPokeToDB(pokeObj) {
@@ -273,11 +285,11 @@ function renderPoke(pokeObj, keys) {
         break
       }
       case 'attack': {
-        $div.append($('<div class="attack">').text('attack: ' + pokeObj.attack))
+        $div.append($('<div class="attack">').text('attack: ' + pokeObj.attackPoints))
         break
       }
       case 'hp': {
-        $div.append($('<div class="hp">').text('hp: ' + pokeObj.hp))
+        $div.append($('<div class="hp">').text('hp: ' + pokeObj.healthPoints))
         break
       }
       case 'image': {

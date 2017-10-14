@@ -6,27 +6,34 @@ function battleMode() {
 
   $('#attackButton').on("click", function() {
       pikachu.play();
+      user.healthPoints = user.healthPoints - opponent.attackPoints;
+      opponent.healthPoints = opponent.healthPoints - user.attackPoints;
 
-      userHealth = userHealth - 10;
-      catchHealth = catchHealth - 10;
+      $('#catch .hp').text('hp: ' + opponent.healthPoints);
+      $('#user .hp').text('hp: ' + user.healthPoints);
 
-      $('#catch h2').text(catchHealth);
-      $('#user h2').text(userHealth);
-
-      if (userHealth <= 0) {
-        var ref = database.ref().child("Users").child(userId.uid).child(referenceId);
-        ref.remove()
+      if (user.healthPoints <= 0) {
+        database.ref()
+          .child("Users")
+          .child(userId.uid)
+          .child(selectedPokeID)
+          .remove()
+        user = false
+        removePokeFromPouch(selectedPokeID)
+        showPouch()
       };
+
+      if (opponent.healthPoints <= 0) {
+        closeBattle()
+      }
 
   });
 
   $('#catchButton').on("click", function() {
-    if (catchHealth < 10 && catchHealth > 0) {
+    if (opponent.healthPoints < 10 && opponent.healthPoints > 0) {
       catched.play();
       database.ref().child("Users").child(userId.uid).push({ 
-        name: pokeName,
-        health: pokeHealth,
-        image: pokeImage
+        opponent
       });
     };
   });
@@ -50,10 +57,10 @@ $('#pokemonCollection').on("click", ".pokemon", function selectUserPokemon() {
   $('#pouch').css("display", "none");
 
 //loads the pokemon from the pokemonCollection into the user side of battlemode
-  referenceId = $(this).attr("data-id");
+  selectedPokeID = $(this).attr('data-id')
   var ref = database.ref().child("Users")
     .child(userId.uid)
-    .child(referenceId)
+    .child(selectedPokeID)
     .once('value')
     .then(function (snapshot) {
       user = getPokeValuesFromDB(snapshot)
@@ -61,3 +68,7 @@ $('#pokemonCollection').on("click", ".pokemon", function selectUserPokemon() {
       $('#user').append($user)
     })
 })
+
+function closeBattle() {
+  $('#battleMode').css('display', 'none');
+}
