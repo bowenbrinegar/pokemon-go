@@ -1,5 +1,6 @@
 #pokemonCollection .pokemon {
   background: white;
+  float: left;
   border: none;
   border-radius: 8px;
   margin: 10px;
@@ -25,8 +26,7 @@
   visibility: visible;
   opacity: 1;
   background: rgba(173,0,0,.5);
-    transition: box-shadow 0.3s ease-in-out;
-    transition: 1s;
+    transition: box-shadow 1s ease-in-out;
 }
 
 .battleMon .pokemon .attack,
