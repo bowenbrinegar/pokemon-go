@@ -7,11 +7,11 @@ $('#sumbit').on("click", function() {
 
    if (select == 2) {
       firebase.auth().createUserWithEmailAndPassword(email, password).then(function(success){
-        alert("New User Created");
         $('#userPortal').hide();
         userId = firebase.auth().currentUser;
+        loginSuccess.style.display = 'block';
       }).catch(function(error) {
-        alert("User Does Not Exist");
+        loginFailure.style.display = 'block';
         var errorCode = error.code;
         var errorMessage = error.message;
       });
@@ -19,11 +19,11 @@ $('#sumbit').on("click", function() {
    }
    if (select == 1) {
       firebase.auth().signInWithEmailAndPassword(email, password).then(function(success){
-        alert("You're Logged In");
         $('#userPortal').hide();
         userId = firebase.auth().currentUser;
+        loginSuccess.style.display = 'block';
       }).catch(function(error) {
-        alert("Invalid Email");
+        loginFailure.style.display = 'block';
         var errorCode = error.code;
         var errorMessage = error.message;
       });

@@ -84,6 +84,14 @@ button {
 
 
 /*information modal*/
+#modalBox {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 20%;
+  bottom: 0;
+}
 
 #infoModal{
     display:none;
@@ -107,17 +115,37 @@ button {
     width:40%;
 }
 
-#close{
+.closer{
     color:#aaa;
     float:right;
     font-size:28px;
     font-weight:bold;
 }
 
-#close:hover, #close:focus{
+.closer:hover, .closer:focus{
     color:black;
     text-decoration:none;
     cursor:pointer;
+}
+
+
+/*All other modals*/
+
+.modal2 {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: none;
+  z-index: 15;
+  background: white;
+  width: 430px;
+  height: 120px;
+  color: black;
+  border-radius: 20px;
+  text-align: center;
 }
 
 

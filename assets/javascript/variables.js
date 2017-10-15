@@ -40,4 +40,13 @@ var markers = {};
 
 var selector;
 
+//modals
+
+var infoModal = document.getElementById('infoModal');
+var loginFailure = document.getElementById('loginFailure');
+var loginSuccess = document.getElementById('loginSuccess');
+var pokeCollected = document.getElementById('pokeCollected');
+var pokeLost = document.getElementById('pokeLost');
+var pokeMissed = document.getElementById('pokeMissed');
+
 

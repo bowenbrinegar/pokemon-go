@@ -81,18 +81,19 @@ $('#closeBattle').on("click", function() {
   $('#battleMode').css("display", "none");
 });
 
-//on click open and close help modal
+//on click open and close modals
 
-var infoModal = document.getElementById('infoModal');
-var infoButton = document.getElementById('infoButton');
-var infoClose = document.getElementById('close');
-
-$(infoButton).on('click', function(){
+$('#infoButton').on('click', function(){
   infoModal.style.display = 'block';
 });
 
-$(infoClose).on('click', function(){
+$('#modalBox').on("click", "span", function(){
   infoModal.style.display = 'none';
+  loginFailure.style.display = 'none';
+  loginSuccess.style.display = 'none';
+  pokeCollected.style.display = 'none';
+  pokeLost.style.display = 'none';
+  pokeMissed.style.display = 'none';
 });
 
 window.onclick = function(event){
