@@ -73,7 +73,7 @@ body{
 }
 
 
-/*all buttons, gets rid of default styling*/
+/*clears default styling for buttons*/
 
 button {
     outline: none;
@@ -83,7 +83,8 @@ button {
 }
 
 
-/*information modal*/
+/*help modal*/
+
 #modalBox {
   position: absolute;
   margin: auto;
@@ -115,14 +116,14 @@ button {
     width:40%;
 }
 
-.closer{
+#closer{
     color:#aaa;
     float:right;
     font-size:28px;
     font-weight:bold;
 }
 
-.closer:hover, .closer:focus{
+#closer:hover, #closer:focus{
     color:black;
     text-decoration:none;
     cursor:pointer;
@@ -149,7 +150,7 @@ button {
 }
 
 
-/*centers map and main container*/
+/*map and main container*/
 
 #mainContainer {
   position: absolute;
@@ -161,7 +162,6 @@ button {
   bottom: 0;
   width: 70%;
   height: 70%;
-  background-color: black;
   border-radius: 20px;
   overflow: hidden;
 }
@@ -211,17 +211,14 @@ button {
 }
 
 
-/*pouch div*/
+/*pouch*/
 
 #pouch {
-    position:absolute;
-    margin:auto;
-    left:0;
-    right:0;
-    top:0;
-    bottom:0;
-    width: 600px;
-    height: 70%;
+    position:relative;
+    float:left;
+    margin:5% 0 5% 5%;
+    width: 450px;
+    height: 80%;
     display: none;
     background: rgba(0,0,0,.5);
     border-radius: 20px;
@@ -256,7 +253,6 @@ button {
   float:right;
   right:28px;
   top:15px;
-  z-index:10;
 }
 
 .glyphicon-remove{
@@ -276,10 +272,108 @@ button {
 }
 
 
+/*battle mode*/
+
+#battleMode {
+    position: relative;
+    float:left;
+    margin:5%;
+    height: 80%;
+    width: 550px;
+    background: rgba(0,0,0,.8);
+    display: none;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+#closeBattle {
+    position: absolute;
+    top: 0px;
+    right: 15px;
+    font-size: 40px;
+    color: white;
+}
+
+#mainFrame {
+    position: absolute;
+    margin:auto;
+    top: 0;
+    left: 0;
+    right:0;
+    bottom:0;
+    background: url('../images/pokebackground.jpg') no-repeat center;
+    height: 100%;
+    width: 100%;
+    content:'';
+    display:table;
+    clear:both;
+}
+
+#attackButton {
+    position: relative;
+    background: red;
+    height: 50px;
+    width: 100px;
+    margin:2% 2% 2% 2%;
+    color: white;
+}
+
+#catchButton {
+    position: relative;
+    background: blue;
+    height: 50px;
+    width: 100px;
+    margin:2% 2% 2% 0;
+    color: white;
+}
+
+
+#catch {
+  position: relative;
+  float:left;
+  width: 200px;
+  height: 200px;
+  margin:;
+  border-radius:20px;
+}
+
+#user {
+  position: relative;
+  float:left;
+  width: 200px;
+  height: 200px;
+  margin:;
+  border-radius:20px;
+}
+
+.pokeBattle {
+  height: 150px;
+  width: 150px;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:0;
+  margin:auto;
+}
+
+.hp{
+  width:25px;
+  margin:0 3% 3% 0;
+}
+
+h2:nth-child(3){
+  position:relative;
+}
+
+h3:last-child{
+  position:relative;
+}
+
 /*pokemon selectors*/
 
 #pokemonCollection {
-  width:500px;
+  width:90%;
 }
 
 .pokeSelectorButton {
@@ -323,80 +417,8 @@ button {
   visibility: visible;
   opacity: 1;
   background: rgba(173,0,0,.5);
-    transition: box-shadow 0.3s ease-in-out;
-    transition: 1s;
-}
-
-
-/*battle mode*/
-
-#battleMode {
-    position: relative;
-    height: 400px;
-    width: 700px;
-    background: rgba(0,0,0,.8);
-    display: none;
-}
-
-#closeBattle {
-    position: absolute;
-    top: 0px;
-    right: 15px;
-    font-size: 40px;
-    color: white;
-}
-
-#mainFrame {
-    position: absolute;
-    top: 25px;
-    left: 50px;
-    background: white;
-    height: 350px;
-    width: 600px;
-}
-
-#attackButton {
-    position: absolute;
-    bottom: 70px;
-    background: black;
-    height: 50px;
-    width: 100px;
-    left: 225px;
-    color: white;
-}
-
-#catchButton {
-    position: absolute;
-    bottom: 10px;
-    background: black;
-    height: 50px;
-    width: 100px;
-    left: 225px;
-    color: white;
-}
-
-
-#catch {
-    border: 5px solid red;
-    position: absolute;
-    left: 25px;
-    top: 25px;
-    width: 200px;
-    height: 200px;
-}
-
-#user {
-    border: 5px solid red;
-    position: absolute;
-    right: 25px;
-    top: 25px;
-    width: 200px;
-    height: 200px;
-}
-
-.pokeBattle {
-    height: 150px;
-    width: 150px;
+  transition: box-shadow 0.3s ease-in-out;
+  transition: 1s;
 }
 
 /*isotope*/

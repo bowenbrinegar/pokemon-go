@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pokémon Go Browser</title>
+
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+
+    <link rel='stylesheet' type='text/css' href='assets/css/style.css'>
+    
+</head>
+
+<body>
+    <div id="bentoBox">
+        <div id="header">
+            <div id="logo"><a href="index.html"><img src="assets/images/GO.png"></a></div>
+            <button id="pouchButton"><img id="pouchPng" src="assets/images/bag-icon.png"></button>
+            <button id="infoButton"><span class="glyphicon glyphicon-question-sign"></span></button>
+        </div>
+        <div id="infoModal" class="modal">
+            <div id="modalContent">
+                <span id="close">×</span>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit an im id est laborum.</p>
+            </div>
+        </div>
+        <div id="mainContainer">
+            <div id="userPortal" style="display: none;">
+                <div id="logInContainer">
+                    <div class="input-group">
+                        <select id="sel1">
+                            <option value="1" selected="selected">Log In</option>
+                            <option value="2">Create Account</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="email" class="form-control" name="search" placeholder="Email" required="">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="password" class="form-control" name="begin" placeholder="Password" required="">
+                    </div>
+                    <div class="input-group">
+                        <button id="sumbit" class="btn btn-default" type="button">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div id="map"></div>
+            <div id="pouch" style="display: block;">
+                <button id="closePouch">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+                <div id="pouchControls">
+                    <span class="h3 label">Sort By:</span>
+                    <button class="sortby attack">attack</button>
+                    <button class="sortby name">name</button>
+                    <button class="sortby type">type</button>
+                    <button class="sortby hp">hp</button>
+                </div>
+                <div id="div1">
+                    <div id="pokemonCollection" style="position: relative; height: 840px;">
+                        <div class="button__wrap pokemon" data-name="growlithe" data-attack="70" data-hp="55" data-type="fire" style="position: absolute; opacity: 1; transform: scale(1); transition-property: opacity, transform; transition-duration: 0.4s; transition-delay: 0ms; left: 0px; top: 0px;"><img class="poke" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/58.png">
+                            <button class="button__description" data-id="-KwTQTUrw9zflqgps8VA">
+                                <h4 class="hoverName">growlithe</h4>
+                                <h4 class="hoverHealth">55</h4></button>
+                        </div>
+                        <div class="button__wrap pokemon" data-name="nidorino" data-attack="72" data-hp="61" data-type="poison" style="position: absolute; opacity: 1; transform: translate3d(120px, 0px, 0px); transition-property: opacity, transform; transition-duration: 0.4s; transition-delay: 0ms; left: 0px; top: 0px;"><img class="poke" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/33.png">
+                            <button class="button__description" data-id="-KwTOAgkN5uzMhLC-uqZ">
+                                <h4 class="hoverName">nidorino</h4>
+                                <h4 class="hoverHealth">61</h4></button>
+                        </div>
+                        <div class="button__wrap pokemon" data-name="victreebel" data-attack="105" data-hp="80" data-type="poison" style="position: absolute; opacity: 1; transform: translate3d(240px, 0px, 0px); transition-property: opacity, transform; transition-duration: 0.4s; transition-delay: 0ms; left: 0px; top: 0px;"><img class="poke" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/71.png">
+                            <button class="button__description" data-id="-KwTLg8zrN1wMEvZ-2Ij">
+                                <h4 class="hoverName">victreebel</h4>
+                                <h4 class="hoverHealth">80</h4></button>
+                        </div>
+                        <div class="button__wrap pokemon" data-name="wartortle" data-attack="63" data-hp="59" data-type="water" style="position: absolute; opacity: 1; transform: translate3d(360px, 0px, 0px); transition-property: opacity, transform; transition-duration: 0.4s; transition-delay: 0ms; left: 0px; top: 0px;"><img class="poke" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png">
+                            <button class="button__description" data-id="-KwTHRue1kV2zhg6Eb-m">
+                                <h4 class="hoverName">wartortle</h4>
+                                <h4 class="hoverHealth">59</h4></button>
+                        </div>
+                        <div class="button__wrap pokemon" data-name="caterpie" data-attack="30" data-hp="45" data-type="bug" style="position: absolute; opacity: 1; transform: translate3d(0px, 120px, 0px); transition-property: opacity, transform; transition-duration: 0.4s; transition-delay: 0ms; left: 0px; top: 0px;"><img class="poke" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/10.png">
+                            <button class="button__description" data-id="-KwT6zkfpqz1NlTE86rU">
+                                <h4 class="hoverName">caterpie</h4>
+                                <h4 class="hoverHealth">45</h4></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="battleMode" style="display: block;">
+                <button id="closeBattle">×</button>
+                <div id="mainFrame">
+                    <div id="catch"><img class="pokeBattle" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/48.png">
+                        <h2><img class='hp' src="assets/images/hp.png">60</h2>
+                        <h3>venonat</h3>
+                    </div>
+                    <div id="user"><img class="pokeBattle" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/65.png">
+                        <h2><img class='hp' src='assets/images/hp.png'>13</h2>
+                        <h3>alakazam</h3></div>
+                    <button id="attackButton">Attack</button>
+                    <button id="catchButton">Catch</button>
+                </div>
+            </div>
+        </div>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAGo7wJFDJdX_rlOnu49NKxv3qnpQeu6-I&libraries=places&callback=initMap" async defer></script>
+        <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <!--   <script type="text/javascript" src="assets/javascript/app.js"></script>  -->
+        <!-- remove soon -->
+        <script type="text/javascript" src="assets/javascript/map.js"></script>
+
+</body>
+
+</html>
