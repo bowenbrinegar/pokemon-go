@@ -529,22 +529,22 @@ h3:last-child{
     width:60%;
   }
   #pouch{
-    width:600px;
-    height:40%;
+    width:550px;
+    height:80%;
     margin:5% 0 5% 5%;
   }
   #div1{
-    width:550px;
-    height:180px;
+    width:530px;
+    height:500px;
     margin:2%;
   }
   #pokemonCollection{
-    width:550px;
+    width:530px;
     height:auto;
   }
   #battleMode{
-    width:600px;
-    height:40%;
+    width:500px;
+    height:80%
     margin:5% 5% 0 5%;
   }
   #mainFrame{
@@ -557,10 +557,10 @@ h3:last-child{
     margin:5% 0 0 5%;
   }
   #attackButton{
-    margin:2% 10% 2% 2%;
+    margin:40% 0 2% 30%;
   }
   #catchButton{
-    margin:2%;
+    margin:40% 2% 2% 2%;
   }
 }
 
